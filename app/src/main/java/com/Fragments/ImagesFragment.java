@@ -20,6 +20,7 @@ import com.Util.ProgressView;
 import com.Util.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.thecats.DetalleActivity;
 import com.thecats.R;
 
 import java.util.Timer;
@@ -64,7 +65,7 @@ public class ImagesFragment extends Fragment implements SwipeRefreshLayout.OnRef
         Networking.get(APIs.IMAGENES+"?limit=50", new Networking.ICallback() {
             @Override
             public void onFail(String error) {
-                Utils.mostrarAlertDialog(getContext(),error);
+                Utils.mostrarAlertDialog(getContext(),"Verifica tu conexión");
                 ProgressView.Dismiss();
                 ListViewImages.setAdapter(null);
             }

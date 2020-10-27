@@ -19,6 +19,7 @@ import com.Util.ProgressView;
 import com.Util.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.thecats.DetalleActivity;
 import com.thecats.R;
 
 import java.util.Collections;
@@ -63,7 +64,7 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         Networking.get(APIs.RAZAS, new Networking.ICallback() {
             @Override
             public void onFail(String error) {
-                Utils.mostrarAlertDialog(getContext(),error);
+                Utils.mostrarAlertDialog(getContext(),"Verifica tu conexión");
                 ProgressView.Dismiss();
                 ListViewRazas.setAdapter(null);
             }

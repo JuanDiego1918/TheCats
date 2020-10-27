@@ -73,7 +73,7 @@ public class DetalleActivity extends AppCompatActivity {
         Networking.get(APIs.IMAGENES+"?breed_id="+raza.getID(), new Networking.ICallback() {
             @Override
             public void onFail(String error) {
-                Utils.mostrarAlertDialog(DetalleActivity.this,error);
+                Utils.mostrarAlertDialog(DetalleActivity.this,"Verifica tu conexión");
                 ProgressView.Dismiss();
             }
 
