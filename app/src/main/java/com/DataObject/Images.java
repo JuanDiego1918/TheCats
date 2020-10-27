@@ -2,14 +2,14 @@ package com.DataObject;
 
 public class Images {
 
-    private Object[] breeds;
+    private Raza[] breeds;
     private String id;
     private String url;
     private long width;
     private long height;
 
-    public Object[] getBreeds() { return breeds; }
-    public void setBreeds(Object[] value) { this.breeds = value; }
+    public Raza[] getBreeds() { return breeds; }
+    public void setBreeds(Raza[] value) { this.breeds = value; }
 
     public String getID() { return id; }
     public void setID(String value) { this.id = value; }

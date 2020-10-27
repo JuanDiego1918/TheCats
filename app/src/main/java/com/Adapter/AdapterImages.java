@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.DataBase.VotesBO;
 import com.DataObject.Images;
 import com.DataObject.Raza;
 import com.Networking.APIs;
@@ -63,7 +64,15 @@ public class AdapterImages extends ArrayAdapter<Images> {
         final Images images = listaImages.get(position);
         images.setWidth(images.getWidth());
         images.setHeight(images.getHeight());
-        cargarImg(holder.imagen,images);
+        Utils.cargarImg(holder.imagen,images.getURL(),context);
+
+        holder.btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean save = VotesBO.AlmacenarVoto(images.getID());
+                Utils.mostrarToast(context,save ? "Voto Realizado":"Ha ocurrido un error inesperado");
+            }
+        });
 
 
         return (convertView);
@@ -89,35 +98,7 @@ public class AdapterImages extends ArrayAdapter<Images> {
         return position;
     }
 
-    public void cargarImg(final ImageView image, Images images) {
-        String url = images.getURL();
-        try {
-            Glide.with(context)
-                    .load(url)
-                    .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            Utils.mostrarToast(context,"Error al cargar Imagen");
-                            ProgressView.Dismiss();
-                            return false;
-                        }
 
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            ProgressView.Dismiss();
-                            return false;
-                        }
-                    })
-                    .fitCenter()
-                    .placeholder(R.drawable.ic_error_image)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .into(image);
-
-
-        } catch (Exception e) {
-            Log.e(TAG, "No existe imagen en ruta: " +url);
-        }
-    }
 
 }
 
