@@ -1,6 +1,10 @@
 package com.DataObject;
 
-public class Raza {
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public class Raza implements Serializable {
 
     private long adaptability;
     private long affectionLevel;
@@ -37,6 +41,7 @@ public class Raza {
     private String vetstreetURL;
     private long vocalisation;
     private Weight weight;
+    @SerializedName("wikipedia_url")
     private String wikipediaURL;
     private Long bidability;
     private Long catFriendly;

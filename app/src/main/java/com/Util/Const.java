@@ -2,6 +2,8 @@ package com.Util;
 
 public class Const {
 
+    public final static String nameDirApp = "Gatos";
+    public final static int RESP_PERMISOS_STORAGE = 2003;
     /**
      * contantes para los estados del navigationBottom en el mainactivity
      */

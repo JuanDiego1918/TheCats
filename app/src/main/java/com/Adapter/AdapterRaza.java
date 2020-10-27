@@ -3,6 +3,7 @@ package com.Adapter;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,10 @@ import androidx.annotation.NonNull;
 
 import com.DataObject.Raza;
 import com.Util.Utils;
+import com.thecats.DetalleActivity;
+import com.thecats.MainActivity;
 import com.thecats.R;
+import com.thecats.SplashActivity;
 
 import java.util.Vector;
 
@@ -57,7 +61,9 @@ public class AdapterRaza extends ArrayAdapter<Raza> {
         holder.btnDetalle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "" + raza.getName(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, DetalleActivity.class);
+                intent.putExtra("raza",raza);
+                context.startActivity(intent);
             }
         });
 

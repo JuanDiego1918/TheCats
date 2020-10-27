@@ -7,8 +7,19 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 
+import com.DataBase.VotesBO;
+import com.DataObject.Votes;
+import com.Util.ProgressView;
+import com.Util.Utils;
+import com.google.gson.Gson;
 import com.thecats.R;
+
+import java.util.Vector;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +27,68 @@ import com.thecats.R;
  * create an instance of this fragment.
  */
 public class VotesFragment extends Fragment {
+
+    private View view;
+    private ListView listVotes;
+    private Vector<Votes> listaVotos;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_votes, container, false);
+
+        init();
+        return view;
+    }
+
+    private void init() {
+        listVotes = view.findViewById(R.id.listVotes);
+        cargarDialog();
+    }
+
+    private void cargarDialog() {
+        ProgressView.Show(getContext());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    synchronized (this) {
+                        wait(2000);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ProgressView.Dismiss();
+                                if (!cargarListaVotos()) {
+                                    Utils.mostrarAlertDialog(getContext(), "Debe realizar votaciones.");
+                                }
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    private boolean cargarListaVotos() {
+        boolean estado = false;
+        Vector<String> listaItems = new Vector<String>();
+
+        listaVotos = VotesBO.listaVotos(listaItems);
+
+        if (listaVotos.size()>0){
+            estado = true;
+            ArrayAdapter<String> itemsAdapter =
+                    new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, listaItems);
+            listVotes.setAdapter(itemsAdapter);
+        }else{
+            listVotes.setAdapter(null);
+        }
+
+        return estado;
+    }
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -57,10 +130,5 @@ public class VotesFragment extends Fragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_votes, container, false);
-    }
+
 }

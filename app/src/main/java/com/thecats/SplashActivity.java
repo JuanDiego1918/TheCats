@@ -96,7 +96,7 @@ public class SplashActivity extends AppCompatActivity {
         Runnable runnable = new Runnable() {
 
             public void run() {
-                VotesBO.CrearVoteDB();
+                VotesBO.CrearConfigDB();
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
