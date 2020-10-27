@@ -3,19 +3,99 @@ package com.Fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.Adapter.AdapterImages;
+import com.Adapter.AdapterRaza;
+import com.DataObject.Images;
+import com.DataObject.Raza;
+import com.Networking.APIs;
+import com.Networking.Networking;
+import com.Util.ProgressView;
+import com.Util.Utils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.thecats.R;
+
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.Vector;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ImagesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ImagesFragment extends Fragment {
+public class ImagesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+
+    private View view;
+    private ListView ListViewImages;
+    private SwipeRefreshLayout swipeRefresh;
+    private Vector<Images> listaImages;
+    private Gson gson;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_images, container, false);
+        init();
+        return view;
+    }
+
+    private void init() {
+        ListViewImages = view.findViewById(R.id.ListViewImages);
+        swipeRefresh = view.findViewById(R.id.swipeRefresh);
+        gson = new Gson();
+
+        swipeRefresh.setOnRefreshListener(this);
+
+
+        cargarImages();
+    }
+
+    private void cargarImages() {
+        ProgressView.Show(getContext());
+        Networking.get(APIs.IMAGENES+"?limit=50", new Networking.ICallback() {
+            @Override
+            public void onFail(String error) {
+                Utils.mostrarAlertDialog(getContext(),error);
+                ProgressView.Dismiss();
+                ListViewImages.setAdapter(null);
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                listaImages = gson.fromJson(response.toString(), new TypeToken<Vector<Images>>() {}.getType());
+                cargarAdapter();
+            }
+        });
+    }
+
+    private void cargarAdapter() {
+        if (listaImages.size()>0) {
+            AdapterImages adapterImages = new AdapterImages(ImagesFragment.this.getActivity(), R.layout.list_item_images,listaImages);
+            ListViewImages.setAdapter(adapterImages);
+        }else{
+            Utils.mostrarToast(getContext(), "Busqueda sin resultados");
+            ListViewImages.setAdapter(null);
+            ProgressView.Dismiss();
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        swipeRefresh.setRefreshing(false);
+        cargarImages();
+    }
+
+
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -57,10 +137,4 @@ public class ImagesFragment extends Fragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_images, container, false);
-    }
 }
