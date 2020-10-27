@@ -1,6 +1,8 @@
 package com.DataObject;
 
-public class Weight {
+import java.io.Serializable;
+
+public class Weight implements Serializable {
     private String imperial;
     private String metric;
 
