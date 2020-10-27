@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/navigation_List"
+        android:icon="@drawable/ic_list"
+        android:title="Razas" />
+
+
+    <item
+        android:id="@+id/navigation_Images"
+        android:icon="@drawable/ic_images"
+        android:title="Imagenes" />
+
+    <item
+        android:id="@+id/navigation_Votes"
+        android:icon="@drawable/ic_votes"
+        android:title="Votos" />
+
+
+</menu>

@@ -1,0 +1,13 @@
+<resources>
+
+    <dimen name="text_size_edit">15dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="text_size_title">20dp</dimen>
+    <dimen name="text_size_header">30dp</dimen>
+    <dimen name="min_width">150dp</dimen>
+    <dimen name="text_size_content">16dp</dimen>
+    <dimen name="margin_card">10dp</dimen>
+    <dimen name="padding_card">15dp</dimen>
+    <dimen name="button_padding">5dp</dimen>
+
+</resources>
