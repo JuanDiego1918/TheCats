@@ -27,7 +27,7 @@ public class AdapterRaza extends ArrayAdapter<Raza> {
     Vector<Raza> listaRaza;
 
     public AdapterRaza(@NonNull Activity context, Vector<Raza> listaRaza) {
-        super(context, R.layout.list_item,listaRaza);
+        super(context, R.layout.list_item, listaRaza);
         this.context = context;
         this.listaRaza = listaRaza;
     }
@@ -57,7 +57,7 @@ public class AdapterRaza extends ArrayAdapter<Raza> {
         holder.btnDetalle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, ""+raza.getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "" + raza.getName(), Toast.LENGTH_SHORT).show();
             }
         });
 
