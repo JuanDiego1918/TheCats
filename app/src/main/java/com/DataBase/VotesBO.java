@@ -17,21 +17,21 @@ public class VotesBO {
 
    public static String mensaje;
 
-   public static boolean CrearConfigDB() {
+   public static boolean CrearVoteDB() {
       SQLiteDatabase db = null;
       try {
-         File dbFile = new File(Utils.DirApp(), "Config.db");
+         File dbFile = new File(Utils.DirApp(), "Vote.db");
          db = SQLiteDatabase.openOrCreateDatabase(dbFile, null);
-         String config = "CREATE TABLE IF NOT EXISTS Votes( " +
+         String Vote = "CREATE TABLE IF NOT EXISTS Votes( " +
                  "    Id       INTEGER       PRIMARY KEY AUTOINCREMENT, " +
                  "    idImagen VARCHAR (100), " +
                  "    fecha    DATE );";
-         db.execSQL(config);
+         db.execSQL(Vote);
          return true;
 
       } catch (Exception e) {
          mensaje = e.getMessage();
-         Log.e(TAG, " CrearConfigDB -> " + mensaje);
+         Log.e(TAG, " CrearVoteDB -> " + mensaje);
          return false;
 
       } finally {
@@ -44,10 +44,10 @@ public class VotesBO {
    public static boolean AlmacenarVoto(String idImagen) {
       SQLiteDatabase db = null;
       try {
-         File dbFile = new File(Utils.DirApp(), "Config.db");
+         File dbFile = new File(Utils.DirApp(), "Vote.db");
 
          if (!dbFile.exists()) {
-            CrearConfigDB();
+            CrearVoteDB();
          }
          if (dbFile.exists()) {
             db = SQLiteDatabase.openDatabase(dbFile.getPath(), null, SQLiteDatabase.OPEN_READWRITE);
@@ -60,7 +60,7 @@ public class VotesBO {
             long rows = db.insertOrThrow("Votes", null, values);
             return rows > 0;
          } else {
-            Log.i(TAG, "GuardarConfigUsuario: No Existe la Base de Datos Config.db o No tiene Acceso a la SD");
+            Log.i(TAG, "GuardarVoteUsuario: No Existe la Base de Datos Vote.db o No tiene Acceso a la SD");
             return false;
          }
 
@@ -82,7 +82,7 @@ public class VotesBO {
       Cursor cursor = null;
       mensaje = "";
       try {
-         File dbFile = new File(Utils.DirApp(), "Config.db");
+         File dbFile = new File(Utils.DirApp(), "Vote.db");
          if (dbFile.exists()) {
             db = SQLiteDatabase.openDatabase(dbFile.getPath(), null, SQLiteDatabase.OPEN_READWRITE);
             String query = "SELECT Id,idImagen,fecha FROM Votes ";
